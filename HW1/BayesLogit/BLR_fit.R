@@ -50,12 +50,10 @@ if (length(args)==0){
 
 ########################################################################################
 ########################################################################################
-for (t in 1001:1200) {
-  sim_num <- t
 
 
 bayes.log.1<- function(m,y,X, beta.0, Sigma.0.inv, b.start, s.start, niter=10000,
-                        burnin=1000, retune=100, sim_num=t) { 
+                        burnin=1000, retune=100) { 
   f=function(beta) 
     (sum(y*t(X)%*%beta-m*log(1+exp(t(X)%*%beta)))
      -(1/2)*t(beta-beta.0)%*%solve(Sigma.0.inv)%*%(beta-beta.0))
@@ -142,7 +140,7 @@ s.0=matrix(c(0.01, 0, 0, 0.01), nrow=2, ncol=2)
 # Fit the Bayesian model:
 bayes.1 = bayes.log.1(m=as.numeric(data$n), y=as.numeric(data$y), X=as.matrix(rbind(data$X1, data$X2)),
                        beta.0=as.matrix(rbind(0,0)),Sigma.0.inv=diag(2),
-                       b.start=b.0, s.start=s.0 , niter=10000, burnin=1000, retune=100, sim_num=t)
+                       b.start=b.0, s.start=s.0 , niter=10000, burnin=1000, retune=100)
 bayes.1
 # Extract posterior quantiles...
 p1 <- quantile((bayes.1[1001:10000,1]), probs=seq(from=0.01, to = 0.99, by =0.01))
